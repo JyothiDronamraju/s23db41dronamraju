@@ -6,6 +6,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var apartmentsRouter = require('./routes/apartments');
+
 
 var app = express();
 
@@ -25,6 +27,7 @@ app.get('/apartments', (req, res) => {
   // Logic to fetch and render apartments goes here
   res.render('apartments', { title: 'Search Results - Apartments' });
 });
+
 
 
 // catch 404 and forward to error handler
