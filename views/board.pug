@@ -1,12 +1,16 @@
-extends layout
-
-block content
-  h1= title
-  
-  p Query Parameters:
-  ul
-    if query
-      li Rows: #{query.rows}
-      li Columns: #{query.cols}
-    else
-      li No query parameters provided
+doctype html
+html
+  head
+    title= title
+  body
+    h1= title
+    - if (error)
+      p= error
+    - else
+      p Query Rows: #{query.rows}
+      p Query Cols: #{query.cols}
+      table#outer
+        - for (let i = 0; i < rows; i++)
+          tr#middle
+            - for (let j = 0; j < cols; j++)
+              td= computeCellValue(i, j, rows, cols)
