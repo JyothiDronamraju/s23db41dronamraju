@@ -27,27 +27,12 @@ app.use('/users', usersRouter);
 app.use('/apartments', apartmentsRouter);
 app.use('/board', boardRouter);
 
-// Part 8: Function to compute cell values
-function computeCellValue(i, j, rows, cols) {
-  if (i === j) {
-    return 1;
-  } else if (i === j - 1) {
-    return 2;
-  } else if (i === j + 1) {
-    return i;
-  } else {
-    return 0;
-  }
-}
-
-app.locals.computeCellValue = computeCellValue;
-
 // Handle 404 and errors
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // Handle errors
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

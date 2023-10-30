@@ -4,13 +4,14 @@ html
     title= title
   body
     h1= title
-    - if (error)
-      p= error
+    - if (!query)
+      p No query parameters provided
     - else
       p Query Rows: #{query.rows}
       p Query Cols: #{query.cols}
       table#outer
-        - for (let i = 0; i < rows; i++)
+        - for (let i = 0; i < query.rows; i++)
           tr#middle
-            - for (let j = 0; j < cols; j++)
-              td= computeCellValue(i, j, rows, cols)
+            - for (let j = 0; j < query.cols; j++)
+              - const cellValue = computeCellValue(i, j, query.rows, query.cols)
+              td= cellValue
