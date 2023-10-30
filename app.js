@@ -6,12 +6,11 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var apartmentsRouter = require('./routes/apartments');
-
+var apartmentsRouter = require('./routes/apartments'); // This is where your /apartments route is defined
 
 var app = express();
 
-// view engine setup
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -21,27 +20,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Define routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.get('/apartments', (req, res) => {
-  // Logic to fetch and render apartments goes here
-  res.render('apartments', { title: 'Search Results - Apartments' });
-});
+app.use('/apartments', apartmentsRouter); // This maps the /apartments route to the apartmentsRouter
 
-
-
-// catch 404 and forward to error handler
+// Handle 404 and errors
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+  // Handle errors
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
