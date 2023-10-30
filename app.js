@@ -21,6 +21,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.get('/apartments', (req, res) => {
+  // Logic to fetch and render apartments goes here
+  res.render('apartments', { title: 'Search Results - Apartments' });
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
