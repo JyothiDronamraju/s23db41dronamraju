@@ -2,32 +2,17 @@ extends layout
 
 block content
   h1= title
-  - const results = [
-      {
-        apartmentsType: 'Studio',
-        location: 'Downtown',
-        rent: 1000
-      },
-      {
-        apartmentsType: '1-Bedroom',
-        location: 'Suburb',
-        rent: 1200
-      },
-      {
-        apartmentsType: '2-Bedroom',
-        location: 'City Center',
-        rent: 1500
-      }
-    ]
+  - const results =  [{apartmentType: 'Studio', location: 'Downtown', rent: 1000}, {apartmentType: '1-Bedroom', location: 'Suburb', rent: 1200}, {apartmentType: '2-Bedroom', location: 'City Center', rent: 1500}];
+
+
   .container-fluid
     .row
-      each apartments , index in results
-        .col-sm-2(onclick=`buy(${index})`)
-          p= `Apartments Type: ${apartments .apartmentsType}`
-          p= `Location: ${apartments .location}`
-          p= `Rent: $${apartments .rent}`
-          button(type="button" class="btn btn-primary") Press Me
+      each apartment in results
+        .col-sm-2(onclick=`buy(${results.indexOf(apartment)})`)
+          p= `Apartment Type: ${apartment.apartmentType}`
+          p= `Location: ${apartment.location}`
+          p= `Rent: $${apartment.rent}`
   script.
     function buy(index) {
-      alert(`You purchased Apartments: ${results[index].apartmentsType}`);
+      alert(`You purchased Apartments: ${results[index].apartmentType}`);
     }

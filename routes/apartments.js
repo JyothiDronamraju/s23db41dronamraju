@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
+// apartments.js
+const express = require('express');
+const router = express.Router();
 
-/* GET apartment page. */
 router.get('/', function(req, res, next) {
-  res.render('apartment', { title: 'Search Results - Apartment' });
+  // Render the 'apartments' view
+  res.render('apartments');
 });
 
 module.exports = router;
