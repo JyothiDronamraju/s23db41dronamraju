@@ -4,30 +4,30 @@ block content
   h1= title
   - const results = [
       {
-        apartmentType: 'Studio',
+        apartmentsType: 'Studio',
         location: 'Downtown',
         rent: 1000
       },
       {
-        apartmentType: '1-Bedroom',
+        apartmentsType: '1-Bedroom',
         location: 'Suburb',
         rent: 1200
       },
       {
-        apartmentType: '2-Bedroom',
+        apartmentsType: '2-Bedroom',
         location: 'City Center',
         rent: 1500
       }
     ]
   .container-fluid
     .row
-      each apartment, index in results
+      each apartments , index in results
         .col-sm-2(onclick=`buy(${index})`)
-          p= `Apartment Type: ${apartment.apartmentType}`
-          p= `Location: ${apartment.location}`
-          p= `Rent: $${apartment.rent}`
+          p= `Apartments Type: ${apartments .apartmentsType}`
+          p= `Location: ${apartments .location}`
+          p= `Rent: $${apartments .rent}`
           button(type="button" class="btn btn-primary") Press Me
   script.
     function buy(index) {
-      alert(`You purchased Apartment: ${results[index].apartmentType}`);
+      alert(`You purchased Apartments: ${results[index].apartmentsType}`);
     }
