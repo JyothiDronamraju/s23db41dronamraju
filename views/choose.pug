@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    h1= title
+    - var image_names = ["studio.jpg", "1ba.jpg", "2ba.jpg", "apartment.jpg", "id.jpg"]
+
+    - for(let i = 0; i < 3; i++)
+        - var randomIndex = Math.floor(Math.random() * 5)
+        - var imageName = image_names[randomIndex]
+        - var imagePath = `/images/${imageName}`
+        - var altText = `Image: ${imageName}`
+        - var imageSize = "300px" 
+
+        img(src=imagePath, alt=altText, height=imageSize, width=imageSize)

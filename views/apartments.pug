@@ -1,20 +1,25 @@
 extends layout
 
 block content
-  -
-    let results = [
-      { apartment_type: 'Studio', location: 'Downtown', rent: 1000 },
-      { apartment_type: '1-Bedroom', location: 'Suburb', rent: 1200 },
-      { apartment_type: '2-Bedroom', location: 'City Center', rent: 1500 }
-    ]
+  - let results = [
+    { apartment_type: 'Studio', location: 'Downtown', rent: 1000 },
+    { apartment_type: '1-Bedroom', location: 'Suburb', rent: 1200 },
+    { apartment_type: '2-Bedroom', location: 'City Center', rent: 1500 }
+  ]
 
   div.container-fluid
     div.row
       div.col-12
-        h2 Search Results - Apartments
+        h1= title
 
-      each result in results
+      each result, index in results
         div.col-sm-4
-          p Type: #{result.apartment_type}
-          p Location: #{result.location}
-          p Rent: $#{result.rent}
+          .result-item(onclick=`buy(${index})`)
+            p= `Type: ${result.apartment_type}`
+            p= `Location: ${result.location}`
+            p= `Rent: $${result.rent}`
+
+  script.
+    function buy(index) {
+      alert(`You purchased Item ${index + 1}`);
+    }
