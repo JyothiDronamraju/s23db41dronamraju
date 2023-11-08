@@ -1,9 +1,15 @@
-const costume = require('../models/costume'); // Make sure to adjust the import based on your project structure
+const Costume = require('../models/costume');
 
-// Display list of all costumes.
-exports.costume_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: Costume list');
-};
+exports.costume_list = function (req, res) {
+    Costume.find({}, (err, costumes) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+      res.json(costumes);
+    });
+  };
+  
 
 // Display detail page for a specific costume.
 exports.costume_detail = function(req, res) {

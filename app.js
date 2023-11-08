@@ -10,7 +10,6 @@ const apartmentsRouter = require('./routes/apartments');
 const boardRouter = require('./routes/board');
 const chooseRouter = require('./routes/choose');
 const resourceRouter = require('./routes/resource'); // Updated to use resource router
-const Costume = require('./models/costume');
 
 const app = express();
 
@@ -48,7 +47,9 @@ app.use('/users', usersRouter);
 app.use('/apartments', apartmentsRouter);
 app.use('/board', boardRouter);
 app.use('/choose', chooseRouter);
-app.use('/resource', resourceRouter); // Updated to use the resource router
+
+// Define the API route
+app.use('/resource', resourceRouter);
 
 // Handle 404 and errors
 app.use(function (req, res, next) {
