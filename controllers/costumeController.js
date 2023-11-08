@@ -1,55 +1,33 @@
-const Costume = require('../models/costume'); // Adjust the import based on your project structure
+const costume = require('../models/costume'); // Make sure to adjust the import based on your project structure
 
-// Seeding the collection if needed on server start
-async function recreateDB() {
-  // Delete everything
-  await Costume.deleteMany();
-
-  const instance1 = new Costume({
-    costume_type: 'ghost',
-    size: 'large',
-    cost: 15.4,
-  });
-
-  instance1.save().then((doc) => {
-    console.log('First object saved');
-  }).catch((err) => {
-    console.error(err);
-  });
-}
-
-const reseed = true;
-if (reseed) {
-  recreateDB();
-}
-
-// List all costumes
-exports.costume_list = async function (req, res) {
-  try {
-    const allCostume = await Costume.find();
-    res.json(allCostume);
-  } catch (err) {
-    res.status(500);
-    res.json({ error: err.message });
-  }
+// Display list of all costumes.
+exports.costume_list = function(req, res) {
+    res.send('NOT IMPLEMENTED: Costume list');
 };
 
-// Get details for a specific costume
-exports.costume_detail = function (req, res) {
-  res.send('NOT IMPLEMENTED: Costume detail: ' + req.params.id);
+// Display detail page for a specific costume.
+exports.costume_detail = function(req, res) {
+    res.send('NOT IMPLEMENTED: Costume detail: ' + req.params.id);
 };
 
-// Handle creating a new costume on POST
-exports.costume_create_post = function (req, res) {
-  res.send('NOT IMPLEMENTED: Costume create POST');
+// Handle Costume create on POST.
+exports.costume_create_post = function(req, res) {
+    res.send('NOT IMPLEMENTED: Costume create POST');
 };
 
-// Handle deleting a costume on DELETE
-exports.costume_delete = function (req, res) {
-  res.send('NOT IMPLEMENTED: Costume delete DELETE ' + req.params.id);
+// Handle Costume delete form on DELETE.
+exports.costume_delete = function(req, res) {
+    res.send('NOT IMPLEMENTED: Costume delete DELETE ' + req.params.id);
 };
 
-// Handle updating a costume on PUT
-exports.costume_update_put = function (req, res) {
-  res.send('NOT IMPLEMENTED: Costume update PUT ' + req.params.id);
+// Handle Costume update form on PUT.
+exports.costume_update_put = function(req, res) {
+    res.send('NOT IMPLEMENTED: Costume update PUT' + req.params.id);
 };
+exports.api = function (req, res) {
+    res.json({
+      resources: ['costume'], // Replace with your actual resource name
+      verbs: ['GET', 'POST', 'PUT', 'DELETE'],
+    });
+  };
+  
