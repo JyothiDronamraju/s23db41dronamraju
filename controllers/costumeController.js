@@ -23,9 +23,15 @@ if (reseed) {
   recreateDB();
 }
 
-// List of all costumes
-exports.costume_list = function (req, res) {
-  res.send('NOT IMPLEMENTED: Costume list');
+// List all costumes
+exports.costume_list = async function (req, res) {
+  try {
+    const allCostume = await Costume.find();
+    res.json(allCostume);
+  } catch (err) {
+    res.status(500);
+    res.json({ error: err.message });
+  }
 };
 
 // Get details for a specific costume
@@ -45,5 +51,5 @@ exports.costume_delete = function (req, res) {
 
 // Handle updating a costume on PUT
 exports.costume_update_put = function (req, res) {
-  res.send('NOT IMPLEMENTED: Costume update PUT' + req.params.id);
+  res.send('NOT IMPLEMENTED: Costume update PUT ' + req.params.id);
 };
