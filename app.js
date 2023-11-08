@@ -21,6 +21,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+require('dotenv').config();
+const connectionString = process.env.MONGO_CON;
+const mongoose = require('mongoose');
+
+mongoose.connect(connectionString);
+
+// Get the default connection
+var db = mongoose.connection;
+
+// Bind connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+db.once('open', function () {
+  console.log('Connection to DB succeeded');
+});
 
 // Define routes
 app.use('/', indexRouter);
