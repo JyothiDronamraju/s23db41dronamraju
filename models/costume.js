@@ -8,7 +8,7 @@ const costumeSchema = new mongoose.Schema({
 });
 
 // Create the 'Costume' model with an uppercase 'C'
-const costume = mongoose.model("costume", costumeSchema);
+const Costume = mongoose.model("Costume", costumeSchema);
 
 // Create a function to connect to the MongoDB database
 async function connectToDatabase() {
@@ -24,4 +24,4 @@ async function connectToDatabase() {
 }
 
 // Export the 'Costume' model and the function to connect to the database
-module.exports = {costume, connectToDatabase };
+module.exports = {Costume, connectToDatabase };

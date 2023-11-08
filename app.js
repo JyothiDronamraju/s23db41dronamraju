@@ -10,6 +10,7 @@ const apartmentsRouter = require('./routes/apartments');
 const boardRouter = require('./routes/board');
 const chooseRouter = require('./routes/choose');
 const resourceRouter = require('./routes/resource'); // Updated to use resource router
+const Costume = require('./models/costume'); // Import your Costume model
 
 const app = express();
 

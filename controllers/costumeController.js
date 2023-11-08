@@ -1,14 +1,15 @@
 const Costume = require('../models/costume');
 
-exports.costume_list = function (req, res) {
-    Costume.find({}, (err, costumes) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Internal server error' });
-      }
-      res.json(costumes);
-    });
+// List of all Costumes
+exports.costume_list = async function(req, res) {
+    try {
+      const theCostumes = await Costume.find();
+      res.send(theCostumes);
+    } catch (err) {
+      res.status(500).send({ error: err.message });
+    }
   };
+  
   
 
 // Display detail page for a specific costume.
