@@ -1,0 +1,15 @@
+extends layout
+block content
+  h1= title
+  - const results = results
+  script.
+    function buy(index){
+      alert("You purchased items "+ (index+1));
+    }
+  div.container-fluid
+    div.row
+        each item, index in results
+          div.col-sm-2(onclick = `buy(${index})`)
+             p instrument_name: #{item.apartment_name}
+             p location: #{item.location}
+             p rent: $#{item.rent.toFixed(2)}

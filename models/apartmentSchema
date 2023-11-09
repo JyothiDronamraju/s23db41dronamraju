@@ -1,0 +1,7 @@
+const mongoose = require("mongoose")
+const apartmentSchema = mongoose.Schema({
+    instrument_name: String,
+    location: String,
+    rent: Number,
+})
+module.exports = mongoose.model("apartments", apartmentSchema)

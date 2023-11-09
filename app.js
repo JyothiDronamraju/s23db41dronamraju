@@ -36,32 +36,33 @@ mongoose.connect(connectionString, {
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
 db.once('open', function () {
   console.log('Connection to DB succeeded');
+});
 
-  app.use('/', indexRouter);
-  app.use('/users', usersRouter);
-  app.use('/apartments', apartmentsRouter);
-  app.use('/board', boardRouter);
-  app.use('/choose', chooseRouter);
-  app.use('/resource', resourceRouter);
+// Define your routes and error handling middleware outside of the MongoDB connection block
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/apartments', apartmentsRouter);
+app.use('/board', boardRouter);
+app.use('/choose', chooseRouter);
+app.use('/resource', resourceRouter);
 
-  app.use(function (req, res, next) {
-    next(createError(404));
-  });
+// Error handling middleware
+app.use(function (req, res, next) {
+  next(createError(404));
+});
 
-  app.use(function (err, req, res, next) {
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-    res.status(err.status || 500);
-    res.render('error');
-  });
+app.use(function (err, req, res, next) {
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.status(err.status || 500);
+  res.render('error');
+});
 
-  const port = process.env.PORT || 3000;
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
 
 module.exports = app;
