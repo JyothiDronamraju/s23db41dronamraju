@@ -1,4 +1,4 @@
-const costume = require('../models/costume');
+const { Costume, connectToDatabase } = require('../models/Costume');
 
 // Seeding the collection if needed on server start
 async function recreateDB() {
@@ -6,7 +6,7 @@ async function recreateDB() {
     // Delete everything
     await costume.deleteMany();
 
-    const instance1 = new costume({
+    const instance1 = new Costume({
       costume_type: 'ghost',
       size: 'large',
       cost: 15.4,
@@ -27,14 +27,12 @@ if (reseed) {
 // List all costumes
 exports.costume_list = async function (req, res) {
   try {
-    const allCostume = await costume.find();
+    const allCostume = await Costume.find();
     res.json(allCostume);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-
-
 
 // Get details for a specific costume
 exports.costume_detail = function (req, res) {

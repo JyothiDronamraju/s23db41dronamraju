@@ -1,14 +1,15 @@
 const mongoose = require("mongoose");
 
 // Define the Mongoose schema
-const costumeSchema = new mongoose.Schema({
+const CostumeSchema = new mongoose.Schema({
   costume_type: String,
   size: String,
   cost: Number,
 });
 
+
 // Create the 'costume' model with a lowercase 'c'
-const costume = mongoose.model("costume", costumeSchema);
+const Costume = mongoose.model("Costume", CostumeSchema);
 
 // Create a function to connect to the MongoDB database
 async function connectToDatabase() {
@@ -24,4 +25,4 @@ async function connectToDatabase() {
 }
 
 // Export the 'costume' model and the function to connect to the database
-module.exports = { costume, connectToDatabase };
+module.exports = { Costume, connectToDatabase };
