@@ -1,15 +1,14 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 // Require controller modules.
-var api_controller = require('../controllers/api');
-var costume_controller = require('../controllers/costumeController'); // Corrected the controller name
+const api_controller = require('../controllers/api');
+const costume_controller = require('../controllers/costumeController');
 
-/// API ROUTE ///
+// API ROUTE
 router.get('/', api_controller.api);
 
-/// COSTUME ROUTES ///
-
+// COSTUME ROUTES
 router.post('/costume', costume_controller.costume_create_post);
 router.delete('/costume/:id', costume_controller.costume_delete);
 router.put('/costume/:id', costume_controller.costume_update_put);

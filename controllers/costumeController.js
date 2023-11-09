@@ -1,40 +1,67 @@
-const Costume = require('../models/costume');
+const costume = require('../models/costume');
 
-// List of all Costumes
-exports.costume_list = async function(req, res) {
-    try {
-      const theCostumes = await Costume.find();
-      res.send(theCostumes);
-    } catch (err) {
-      res.status(500).send({ error: err.message });
-    }
-  };
-  
-  
+// Seeding the collection if needed on server start
+async function recreateDB() {
+  try {
+    // Delete everything
+    await costume.deleteMany();
 
-// Display detail page for a specific costume.
-exports.costume_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: Costume detail: ' + req.params.id);
-};
-
-// Handle Costume create on POST.
-exports.costume_create_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Costume create POST');
-};
-
-// Handle Costume delete form on DELETE.
-exports.costume_delete = function(req, res) {
-    res.send('NOT IMPLEMENTED: Costume delete DELETE ' + req.params.id);
-};
-
-// Handle Costume update form on PUT.
-exports.costume_update_put = function(req, res) {
-    res.send('NOT IMPLEMENTED: Costume update PUT' + req.params.id);
-};
-exports.api = function (req, res) {
-    res.json({
-      resources: ['costume'], // Replace with your actual resource name
-      verbs: ['GET', 'POST', 'PUT', 'DELETE'],
+    const instance1 = new costume({
+      costume_type: 'ghost',
+      size: 'large',
+      cost: 15.4,
     });
-  };
-  
+
+    await instance1.save();
+    console.log('First object saved');
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+const reseed = true;
+if (reseed) {
+  recreateDB();
+}
+
+// List all costumes
+exports.costume_list = async function (req, res) {
+  try {
+    const allCostume = await costume.find();
+    res.json(allCostume);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+
+// Get details for a specific costume
+exports.costume_detail = function (req, res) {
+  res.send('NOT IMPLEMENTED: Costume detail: ' + req.params.id);
+};
+
+// Handle creating a new costume on POST
+exports.costume_create_post = function (req, res) {
+  res.send('NOT IMPLEMENTED: Costume create POST');
+};
+
+// Handle deleting a costume on DELETE
+exports.costume_delete = function (req, res) {
+  res.send('NOT IMPLEMENTED: Costume delete DELETE ' + req.params.id);
+};
+
+// Handle updating a costume on PUT
+exports.costume_update_put = function (req, res) {
+  res.send('NOT IMPLEMENTED: Costume update PUT ' + req.params.id);
+};
+
+// Handle a show all view
+exports.costume_view_all_Page = async function (req, res) {
+  try {
+    const theCostumes = await Costume.find();
+    res.render('costume', { title: 'Costume Search Results', results: theCostumes });
+  } catch (err) {
+    res.status(500).send(`{"error": "${err.message}"}`);
+  }
+};
