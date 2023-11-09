@@ -1,100 +1,56 @@
-const { Costume } = require('../models/costume');
+var Apartment = require("../models/apartmentSchema");
 
-// Seeding the collection if needed on server start
-async function recreateDB() {
-  try {
-    // Delete everything
-    await Costume.deleteMany();
-
-    const instance1 = new Costume({
-      costume_type: 'ghost',
-      size: 'large',
-      cost: 15.4,
-    });
-
-    await instance1.save();
-    console.log('First object saved');
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-const reseed = true;
-if (reseed) {
-  recreateDB();
-}
-// Handle creating a new costume on POST
-exports.costume_create_post = function (req, res) {
-    // Your implementation logic for creating a new costume
-    res.send('NOT IMPLEMENTED: Costume create POST');
-};
-
-// Handle deleting a costume on DELETE
-exports.costume_delete = function (req, res) {
-    // Your implementation logic for deleting a costume
-    res.send('NOT IMPLEMENTED: Costume delete DELETE ' + req.params.id);
-};
-
-// Handle updating a costume on PUT
-exports.costume_update_put = function (req, res) {
-    // Your implementation logic for updating a costume
-    res.send('NOT IMPLEMENTED: Costume update PUT ' + req.params.id);
-};
-
-exports.costume_update_get = function (req, res) {
-    // Your implementation logic for updating a costume
-    res.send('NOT IMPLEMENTED: Costume update GET ' + req.params.id);
-};
-  
-// API routes for costumes
-exports.api_costume_list = async function (req, res) {
-  try {
-    const allCostumes = await Costume.find();
-    res.json(allCostumes);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.api_costume_detail = function (req, res) {
-  res.send('NOT IMPLEMENTED: Costume detail: ' + req.params.id);
-};
-
-exports.api_costume_create_post = function (req, res) {
-  res.send('NOT IMPLEMENTED: Costume create POST');
-};
-
-exports.api_costume_delete = function (req, res) {
-  res.send('NOT IMPLEMENTED: Costume delete DELETE ' + req.params.id);
-};
-
-exports.api_costume_update_put = function (req, res) {
-  res.send('NOT IMPLEMENTED: Costume update PUT ' + req.params.id);
-};
-
-// View-related routes for costumes
-exports.view_costume_list = async function (req, res) {
-  try {
-    const allCostumes = await Costume.find();
-    res.render('costume', { title: 'Costume List', costumes: allCostumes });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.view_costume_search_results = async function (req, res) {
-  try {
-    const theCostumes = await Costume.find();
-    res.render('costume', { title: 'Costume Search Results', results: theCostumes });
-  } catch (err) {
-    res.status(500).send(`{"error": "${err.message}"}`);
-  }
-};
-exports.costume_list = async function (req, res) {
+// List of all Apartments
+exports.apartment_list = async function (req, res) {
     try {
-        const allCostumes = await Costume.find();
-        res.json(allCostumes);
+        theApartments = await Apartment.find({}, 'apartment_name location rent -_id');
+        res.send(theApartments);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }
+};
+
+
+// For a specific Apartment
+exports.apartment_detail = function (req, res) {
+    res.send('NOT IMPLEMENTED: Apartments detail: ' + req.params.id);
+};
+
+// Handle Apartment create on POST
+exports.apartment_create_post = async function (req, res) {
+    console.log(req.body);
+    let document = new Apartment();
+    document.apartment_name = req.body.apartment_name;
+    document.location = req.body.location;
+    document.rent = req.body.rent;
+    try {
+        let result = await document.save();
+        res.send(result);
+    } catch (err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }
+};
+
+// Handle Apartment delete form on DELETE
+exports.apartment_delete = function (req, res) {
+    res.send('NOT IMPLEMENTED: Apartments delete DELETE ' + req.params.id);
+};
+
+// Handle Apartment update form on PUT
+exports.apartment_update_put = function (req, res) {
+    res.send('NOT IMPLEMENTED: Apartments update PUT' + req.params.id);
+};
+
+// VIEWS
+// Handle a show all view
+exports.apartment_view_all_Page = async function (req, res) {
+    try {
+        let theApartments = await Apartment.find();
+        res.render('apartments', { title: 'Apartment Search Results', results: theApartments });
+    } catch (err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
     }
 };

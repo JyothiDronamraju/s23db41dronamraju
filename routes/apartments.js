@@ -1,13 +1,9 @@
-var express = require('express');
-const apartment_controlers= require('../controllers/apartment');
-var router = express.Router();
+// apartments.js
+const express = require('express');
+const apartment_controllers = require('../controllers/apartment');
+const router = express.Router();
 
-// /* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('apartment', { title: 'Search Results - Apartments' });
-// });
-/* GET costumes */
-router.get('/', apartment_controlers.apartment_view_all_Page );
+// Define the route to retrieve apartment data
+router.get('/', apartment_controllers.apartment_view_all_Page);
+
 module.exports = router;
-
-

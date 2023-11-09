@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 const apartmentSchema = mongoose.Schema({
-    instrument_name: String,
+    apartment_name: String,
     location: String,
     rent: Number,
 })
