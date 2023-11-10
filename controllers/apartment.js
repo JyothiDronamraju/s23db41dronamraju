@@ -11,10 +11,19 @@ exports.apartment_list = async function (req, res) {
     }
 };
 
-
 // For a specific Apartment
-exports.apartment_detail = function (req, res) {
-    res.send('NOT IMPLEMENTED: Apartments detail: ' + req.params.id);
+exports.apartment_detail = async function (req, res) {
+    try {
+        const apartment = await Apartment.findById(req.params.id, 'apartment_name location rent -_id');
+        if (apartment) {
+            res.send(apartment);
+        } else {
+            res.status(404).send(`{"error": "Apartment for id ${req.params.id} not found"}`);
+        }
+    } catch (err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }
 };
 
 // Handle Apartment create on POST
