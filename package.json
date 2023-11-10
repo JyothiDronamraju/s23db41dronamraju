@@ -2,11 +2,8 @@
   "name": "f23wb41dronamraju",
   "version": "0.0.0",
   "private": true,
-  "engines": {
-    "node": "16.x" 
-  },
   "scripts": {
-    "start": "node --loader ts-node/esm ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
