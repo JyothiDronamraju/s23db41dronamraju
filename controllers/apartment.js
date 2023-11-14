@@ -25,6 +25,7 @@ exports.apartment_detail = async function (req, res) {
         res.status(500).send({ error: err.message });
     }
 };
+
 // Handle Apartment update form on PUT
 exports.apartment_update_put = async function (req, res) {
     console.log(`Update on id ${req.params.id} with body ${JSON.stringify(req.body)}`);
@@ -56,7 +57,21 @@ exports.apartment_update_put = async function (req, res) {
         res.status(500).send({ error: `Update for id ${req.params.id} failed: ${err.message}` });
     }
 };
-;
+
+// Handle Apartment delete form on DELETE
+exports.apartment_delete = async function (req, res) {
+    try {
+        let result = await Apartment.findByIdAndDelete(req.params.id);
+        if (result) {
+            res.send({ message: `Apartment with id ${req.params.id} deleted successfully`, result });
+        } else {
+            res.status(404).send({ error: `Apartment for id ${req.params.id} not found` });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send({ error: `Delete for id ${req.params.id} failed: ${err.message}` });
+    }
+};
 
 // Handle Apartment create on POST
 exports.apartment_create_post = async function (req, res) {
@@ -76,20 +91,17 @@ exports.apartment_create_post = async function (req, res) {
     }
 };
 
-// Handle Apartment delete form on DELETE
-exports.apartment_delete = async function (req, res) {
+// Handle a show one view with id specified by query parameter
+exports.apartment_view_one_Page = async function (req, res) {
+    console.log("Single view for id " + req.params.id);
     try {
-        let result = await Apartment.findByIdAndDelete(req.params.id);
-        if (result) {
-            res.send({ message: `Apartment with id ${req.params.id} deleted successfully`, result });
-        } else {
-            res.status(404).send({ error: `Apartment for id ${req.params.id} not found` });
-        }
+        const result = await Apartment.findById(req.params.id);
+        res.render('apartmentdetail', { title: 'Apartment Detail', toShow: result });
     } catch (err) {
-        console.error(err);
-        res.status(500).send({ error: `Delete for id ${req.params.id} failed: ${err.message}` });
+        res.status(500).send(`{'error': '${err}'}`);
     }
 };
+
 
 // VIEWS
 // Handle a show all view

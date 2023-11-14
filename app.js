@@ -7,8 +7,8 @@ require('dotenv').config();
 const connectionString = process.env.MONGO_CON;
 const mongoose = require('mongoose');
 mongoose.connect(connectionString, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useNewUrlParser: true, // This option is deprecated, update your MongoDB driver
+  useUnifiedTopology: true, // This option is deprecated, update your MongoDB driver
 });
 
 var indexRouter = require('./routes/index');
@@ -27,31 +27,29 @@ db.once("open", function () {
   console.log("Connection to DB succeeded");
 });
 
+// Async function to recreate the database
 async function recreateDB() {
   console.log("**********");
 
   // Delete everything
   await Apartment.deleteMany();
-  let instance1 = new Apartment({ apartment_name: "Costal Breezes Apartments", location: "Miami, FL", rent: 2200 }); // Corrected rent value
-  instance1.save().then(doc => { console.log("First object saved") }).catch(err => {
-    console.error(err);
-  });
-  let instance2 = new Apartment({ apartment_name: "Parkside Heights", location: "New York City, NY", rent: 3500 }); // Corrected rent value
-  instance2.save().then(doc => { console.log("Second object saved") }).catch(err => {
-    console.error(err);
-  });
-  let instance3 = new Apartment({ apartment_name: "Harbour View Residences", location: "San Francisco, CA", rent: 4000 }); // Corrected rent value
-  instance3.save().then(doc => { console.log("Third object saved") }).catch(err => {
-    console.error(err);
-  });
-  let instance4 = new Apartment({ apartment_name: "Woodland Pines Apartments", location: "Austin, TX", rent: 1800 }); // Corrected rent value
-  instance4.save().then(doc => { console.log("Fourth object saved") }).catch(err => {
-    console.error(err);
-  });
-  let instance5 = new Apartment({ apartment_name: "Lakeside Landing", location: "Minneapolis, MN", rent: 1600 }); // Corrected rent value
-  instance5.save().then(doc => { console.log("Fifth object saved") }).catch(err => {
-    console.error(err);
-  });
+
+  // Insert new data
+  const instances = [
+    { apartment_name: "Costal Breezes Apartments", location: "Miami, FL", rent: 2200 },
+    { apartment_name: "Parkside Heights", location: "New York City, NY", rent: 3500 },
+    { apartment_name: "Harbour View Residences", location: "San Francisco, CA", rent: 4000 },
+    { apartment_name: "Woodland Pines Apartments", location: "Austin, TX", rent: 1800 },
+    { apartment_name: "Lakeside Landing", location: "Minneapolis, MN", rent: 1600 }
+  ];
+
+  await Apartment.insertMany(instances)
+    .then(docs => {
+      console.log(`${docs.length} objects saved`);
+    })
+    .catch(err => {
+      console.error(err);
+    });
 }
 
 let reseed = true;
