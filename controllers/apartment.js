@@ -22,15 +22,14 @@ exports.apartment_view_all_Page = async function (req, res) {
         res.send(`{"error": ${err}}`);
     }
 }
-
-// for a specific Costume.
+// for a specific Apartment.
 exports.apartment_detail = async function (req, res) {
-    console.log("detail" + req.params.id)
+    console.log("detail " + req.query.id); 
     try {
-        let result = await Apartment.findById(req.params.id);
+        let result = await Apartment.findById(req.query.id);
 
         if (!result) {
-            res.status(404).send(`{"error": document for id ${req.params.id} not found`);
+            res.status(404).send(`{"error": document for id ${req.query.id} not found`);
         } else {
             res.send(result);
         }
@@ -38,6 +37,7 @@ exports.apartment_detail = async function (req, res) {
         res.status(500).send(`{"error": ${error.message}`);
     }
 };
+
 // Handle Apartment create on POST.
 exports.apartment_create_post = async function (req, res) {
     console.log(req.body)

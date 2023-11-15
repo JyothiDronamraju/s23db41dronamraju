@@ -4,5 +4,12 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #fff200;
+}
+
+.apartmentAttr {
+  background-color: rgb(255, 127, 187);
+  width: 120px;
+  padding: 5px; /* Add padding for better visibility */
+  margin-bottom: 5px; /* Add margin for better spacing */
 }

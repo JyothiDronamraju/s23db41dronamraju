@@ -1,4 +1,5 @@
 extends layout
+
 block content
     h1= title
     if (toShow == null)
@@ -15,28 +16,30 @@ block content
         form(id='ApartmentForm', action= actionid, method="PUT")
             div.form-group
                 label.apartmentAttr(for='apartment_name') Apartment name
-                input#apartment_name(type='text', name='apartment_name', value= apartment_name )
+                input#apartment_name.form-control(type='text', name='apartment_name', value= apartment_name)
             div.form-group
                 label.apartmentAttr(for='location') Location
-                input#location(type='text', name='location', value= location )
+                input#location.form-control(type='text', name='location', value= location)
             div.form-group
                 label.apartmentAttr(for='rent') Rent
-                input#rent(type='number', name='rent', value= rent )
-            input(type="submit")
+                input#rent.form-control(type='number', name='rent', value= rent)
+            button.btn.btn-primary(type="submit") Update
         script.
             document.forms['ApartmentForm'].addEventListener('submit', (event) => {
                 event.preventDefault();
-                // TODO do something here to show user that form is being submitted
+                // TODO: Add a loading state or visual indication that the form is being submitted
                 fetch(event.target.action, {
-                method: 'PUT',
-                body: new URLSearchParams(new FormData(event.target)) // event.target is the form
-                }).then((resp) => {
-                return resp.json(); // or resp.text() or whatever the server sends
-                }).then((body) => {
-                alert("Update succeded")
-                // TODO handle body
-                }).catch((error) => {
-                // TODO handle error
-                alert("Update failed " + error )
+                    method: 'PUT',
+                    body: new URLSearchParams(new FormData(event.target))
+                })
+                .then((resp) => {
+                    return resp.json();
+                })
+                .then((body) => {
+                    alert("Update succeeded");
+                    // TODO: Handle the response or redirect if needed
+                })
+                .catch((error) => {
+                    alert("Update failed " + error);
                 });
             });
