@@ -1,20 +1,49 @@
 extends layout
+
 block content
-    h1= title
+  style.
+    .apartment-container {
+      margin-top: 20px;
+    }
+
+    .apartmentAttr {
+      font-weight: bold;
+    }
+
+    .apartment-info {
+      margin-bottom: 10px;
+    }
+
+  h1= title
+  if (toShow == null)
+    h2 No instance to delete
+  else
     - let apartmentid = toShow._id
     - let apartment_name = toShow.apartment_name
     - let location = toShow.location
     - let rent = toShow.rent
-    div
-    div.row
-    div(class='apartmentAttr mr-3') Apartment ID is:
-    div #{apartmentid}
-    div.row
-    div(class='apartmentAttr mr-3') Apartment Name is:
-    div #{apartment_name}
-    div.row
-    div(class='apartmentAttr mr-3') Apartment location is:
-    div #{location}
-    div.row
-    div(class='apartmentAttr mr-3') Apartment Rent is:
-    div #{rent}
+
+    .apartment-container
+      .row.apartment-info
+        .col-md-3
+          div(class='apartmentAttr') Apartment ID:
+        .col-md-3
+          div #{apartmentid}
+
+      .row.apartment-info
+        .col-md-3
+          div(class='apartmentAttr') Apartment Name:
+        .col-md-3
+          div #{apartment_name}
+
+      .row.apartment-info
+        .col-md-3
+          div(class='apartmentAttr') Apartment Location:
+        .col-md-3
+          div #{location}
+
+      .row.apartment-info
+        .col-md-3
+          div(class='apartmentAttr') Apartment Rent:
+        .col-md-3
+          div #{rent}
