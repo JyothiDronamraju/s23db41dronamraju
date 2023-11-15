@@ -1,116 +1,143 @@
-const Apartment = require("../models/apartmentSchema");
-
-// List of all Apartments
+var Apartment = require('../models/apartment');
+// List of all Costumes
 exports.apartment_list = async function (req, res) {
     try {
-        const theApartments = await Apartment.find({}, 'apartment_name location rent -_id');
+        theApartments = await Apartment.find();
         res.send(theApartments);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send({ error: err.message });
+    }
+    catch (err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
     }
 };
-
-// Retrieve details of a specific Apartment
-exports.apartment_detail = async function (req, res) {
-    try {
-        const apartment = await Apartment.findById(req.params.id, 'apartment_name location rent -_id');
-        if (apartment) {
-            res.send(apartment);
-        } else {
-            res.status(404).send({ error: `Apartment for id ${req.params.id} not found` });
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).send({ error: err.message });
-    }
-};
-
-// Handle Apartment update form on PUT
-exports.apartment_update_put = async function (req, res) {
-    console.log(`Update on id ${req.params.id} with body ${JSON.stringify(req.body)}`);
-    console.log('Full request:', req);
-    try {
-        let toUpdate = await Apartment.findById(req.params.id);
-
-        // Check if the document exists
-        if (!toUpdate) {
-            return res.status(404).send({ error: `Apartment for id ${req.params.id} not found` });
-        }
-
-        // Update properties based on request body
-        if (req.body.apartment_name) {
-            toUpdate.apartment_name = req.body.apartment_name;
-        }
-        if (req.body.location) {
-            toUpdate.location = req.body.location;
-        }
-        if (req.body.rent) {
-            toUpdate.rent = req.body.rent;
-        }
-
-        // Save the changes
-        let result = await toUpdate.save();
-        console.log("Success " + result);
-        res.send(result);
-    } catch (err) {
-        res.status(500).send({ error: `Update for id ${req.params.id} failed: ${err.message}` });
-    }
-};
-
-// Handle Apartment delete form on DELETE
-exports.apartment_delete = async function (req, res) {
-    try {
-        let result = await Apartment.findByIdAndDelete(req.params.id);
-        if (result) {
-            res.send({ message: `Apartment with id ${req.params.id} deleted successfully`, result });
-        } else {
-            res.status(404).send({ error: `Apartment for id ${req.params.id} not found` });
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).send({ error: `Delete for id ${req.params.id} failed: ${err.message}` });
-    }
-};
-
-// Handle Apartment create on POST
-exports.apartment_create_post = async function (req, res) {
-    console.log(req.body);
-    try {
-        let document = new Apartment({
-            apartment_name: req.body.apartment_name,
-            location: req.body.location,
-            rent: req.body.rent
-        });
-
-        let result = await document.save();
-        res.send(result);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send({ error: err.message });
-    }
-};
-
-// Handle a show one view with id specified by query parameter
-exports.apartment_view_one_Page = async function (req, res) {
-    console.log("Single view for id " + req.params.id);
-    try {
-        const result = await Apartment.findById(req.params.id);
-        res.render('apartmentdetail', { title: 'Apartment Detail', toShow: result });
-    } catch (err) {
-        res.status(500).send(`{'error': '${err}'}`);
-    }
-};
-
-
 // VIEWS
 // Handle a show all view
 exports.apartment_view_all_Page = async function (req, res) {
     try {
-        let theApartments = await Apartment.find();
+        theApartments = await Apartment.find();
         res.render('apartments', { title: 'Apartment Search Results', results: theApartments });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send({ error: err.message });
+    }
+    catch (err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }
+}
+
+// for a specific Costume.
+exports.apartment_detail = async function (req, res) {
+    console.log("detail" + req.params.id)
+    try {
+        let result = await Apartment.findById(req.params.id);
+
+        if (!result) {
+            res.status(404).send(`{"error": document for id ${req.params.id} not found`);
+        } else {
+            res.send(result);
+        }
+    } catch (error) {
+        res.status(500).send(`{"error": ${error.message}`);
     }
 };
+// Handle Apartment create on POST.
+exports.apartment_create_post = async function (req, res) {
+    console.log(req.body)
+    let document = new Apartment();
+    document.apartment_name = req.body.apartment_name;
+    document.location = req.body.location;
+    document.rent = req.body.rent;
+    try {
+        let result = await document.save();
+        res.send(result);
+    }
+    catch (err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }
+};
+
+// Handle Apartment delete form on DELETE.
+exports.apartment_delete = async function(req, res) {
+    console.log("delete " + req.params.id)
+    try {
+    result = await Apartment.findByIdAndDelete( req.params.id)
+    console.log("Removed " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": Error deleting ${err}}`);
+    }
+    };
+// Handle a show one view with id specified by query
+exports.apartment_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id)
+    try{
+    result = await Apartment.findById( req.query.id)
+    res.render('apartmentdetail',
+    { title: 'Apartment Detail', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+    // Handle building the view for creating a Apartment pag.
+    // No body, no in path parameter, no query.
+    // Does not need to be async
+    exports.apartment_create_Page = function(req, res) {
+    console.log("create view")
+    try{
+    res.render('apartmentcreate', { title: 'Apartment Create'});
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+// Handle building the view for updating a apartment.
+// query provides the id
+exports.apartment_update_Page = async function(req, res) {
+    console.log("update view for item "+req.query.id)
+    try{
+    let result = await Apartment.findById(req.query.id)
+    res.render('apartmentupdate', { title: 'Apartment Update', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };   
+// Handle Apartment update form on PUT.
+exports.apartment_update_put = async function (req, res) {
+    console.log(`update on id ${req.params.id} with body${JSON.stringify(req.body)}`)
+    try {
+        let toUpdate = await Apartment.findById(req.params.id)
+        // Do updates of properties
+        if (req.body.apartment_name)
+            toUpdate.apartment_name = req.body.apartment_name;
+        if (req.body.location)
+            toUpdate.location = req.body.location;
+        if (req.body.rent)
+            toUpdate.rent = req.body.rent;
+        let result = await toUpdate.save();
+        console.log("Success " + result)
+        res.send(result)
+    } catch (err) {
+        res.status(500)
+        res.send(`{"error": ${err}: Update for id ${req.params.id}failed`);
+    }
+};
+//Handle a delete one view with id from query
+exports.apartment_delete_Page = async function(req, res) {
+console.log("Delete view for id " + req.query.id)
+try{
+result = await Apartment.findById(req.query.id)
+res.render('apartmentdelete', { title: 'Apartment Delete', toShow:
+result });
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};
+
+

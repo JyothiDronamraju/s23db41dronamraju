@@ -1,24 +1,18 @@
-// apartments.js
-const express = require('express');
-const apartment_controllers = require('../controllers/apartment');
-const router = express.Router();
+var express = require('express');
+const apartment_controlers= require('../controllers/apartment');
+var router = express.Router();
 
-// List all apartments
-router.get('/', apartment_controllers.apartment_list);
-
-// Retrieve details of a specific apartment
-router.get('/:id', apartment_controllers.apartment_detail);
-
-// Update details of a specific apartment (PUT request)
-router.put('/:id', apartment_controllers.apartment_update_put);
-
-// Create a new apartment (POST request)
-router.post('/', apartment_controllers.apartment_create_post);
-
-// Handle Apartment delete form on DELETE
-router.delete('/:id', apartment_controllers.apartment_delete);
-
-// Display details of a specific apartment (GET request for detail view)
-router.get('/detail/:id', apartment_controllers.apartment_view_one_Page);
+// GET Apartments
+router.get('/', apartment_controlers.apartment_view_all_Page );
+ //GET request for one apartment.
+router.get('/apartments/:id', apartment_controlers.apartment_detail)
+/* GET detail apartment page */
+router.get('/detail', apartment_controlers.apartment_view_one_Page);
+/* GET create apartment page */
+router.get('/create', apartment_controlers.apartment_create_Page);
+/* GET create update page */
+router.get('/update', apartment_controlers.apartment_update_Page);
+/* GET delete apartment page */
+router.get('/delete', apartment_controlers.apartment_delete_Page);
 
 module.exports = router;

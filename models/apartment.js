@@ -7,3 +7,12 @@ router.get('/', function(req, res, next) {
 });
 
 module.exports = router;
+
+
+const mongoose = require("mongoose")
+const apartmentSchema = mongoose.Schema({
+apartment_name: String,
+location: String,
+rent: Number
+})
+module.exports = mongoose.model("Apartment",apartmentSchema)
