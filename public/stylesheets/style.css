@@ -8,8 +8,6 @@ a {
 }
 
 .apartmentAttr {
-  background-color: rgb(255, 127, 187);
+  background-color: rgb(255, 127, 232);
   width: 120px;
-  padding: 5px; /* Add padding for better visibility */
-  margin-bottom: 5px; /* Add margin for better spacing */
 }

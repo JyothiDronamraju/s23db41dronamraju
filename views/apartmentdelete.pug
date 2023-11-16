@@ -9,47 +9,46 @@ block content
         - let apartment_name = toShow.apartment_name
         - let location = toShow.location
         - let rent = toShow.rent
-        - let actionid = `/resource/apartments/${apartmentid}`
-        script.
-            let actionid = "#{actionid}"
+        - let actionid = "/resource/apartments/" + apartmentid
+        script let actionid = "#{actionid}"
         div
             div.row
-                div.apartmentAttr.mr-3 Apartment ID is:
-                div.apartmentAttr #{apartmentid}
+                div(class='apartmentAttr mr-3') Apartment ID is:
+                div #{apartmentid}
             div.row
-                div.apartmentAttr.mr-3 Apartment name is:
-                div.apartmentAttr #{apartment_name}
+                div(class='apartmentAttr mr-3') Apartment Name is:
+                div #{apartment_name}
             div.row
-                div.apartmentAttr.mr-3 Location is:
-                div.apartmentAttr #{location}
+                div(class='apartmentAttr mr-3') Apartment Location is:
+                div #{location}
             div.row
-                div.apartmentAttr.mr-3 Apartment rent is:
-                div.apartmentAttr #{rent}
-        button(class="btn btn-danger m-2", onclick="deleteOnid()") Delete
-        button(class="btn btn-secondary m-2", onclick="cancel()") Cancel
+                div(class='apartmentAttr mr-3') Apartment Rent is:
+                div #{rent}
+            button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+            button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
 
-    script.
-        function cancel() {
-             // Go back to the home page for the apartment collection
-            window.location.href='/apartments'
-        }
+        script.
+            function cancel() {
+                // Go back to the home page for the apartment collection
+                window.location.href='/apartments'
+            }
 
-     script.
-        function deleteOnid() {
-             console.log("starting delete");
+        script.
+            function deleteOnid() {
+                console.log("starting delete")
                 
-             // Delete request
-             fetch(actionid, {
-                method: 'DELETE'
-            })
-            .then((resp) => {
-                return resp.json();
-            })
-            .then((body) => {
-                alert("Delete succeeded");
-                 window.location.href='/apartments';
-            })
-            .catch((error) => {
-                alert("Delete failed " + error);
-            });
-        }
+                // delete first
+                
+                fetch(actionid, {
+                    method: 'DELETE' // Don't need a body for the delete
+                }).then((resp) => {
+                    return resp.json(); // or resp.text() or whatever the server sends
+                }).then((body) => {
+                    alert("Delete succeeded");
+                    window.location.href='/apartments';
+                    // TODO handle body
+                }).catch((error) => {
+                    // TODO handle error
+                    alert("Delete failed " + error);
+                });
+            }

@@ -69,8 +69,6 @@ let reseed = true;
 if (reseed) { recreateDB(); }
 
 
-  
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -92,7 +90,6 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-  console.error(err); // Log the error
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
@@ -100,10 +97,6 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
 
 module.exports = app;

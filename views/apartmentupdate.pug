@@ -1,45 +1,53 @@
 extends layout
 
 block content
-    h1= title
+    h1(style='color: #3498db; font-family: "Helvetica", sans-serif; font-weight: bold; text-align: center;')= title
+
     if (toShow == null)
-        h2 No instance to delete
+        h2(style='text-align: center;') No instance to update
     else
         - let apartmentid = toShow._id
         - let apartment_name = toShow.apartment_name
         - let location = toShow.location
         - let rent = toShow.rent
-        div.row(class='mb-2')
-            div.mr-1 ID is
-            div #{apartmentid}
-        - let actionid = "/resource/apartments/" + apartmentid
-        form(id='ApartmentForm', action= actionid, method="PUT")
-            div.form-group
-                label.apartmentAttr(for='apartment_name') Apartment name
-                input#apartment_name.form-control(type='text', name='apartment_name', value= apartment_name)
-            div.form-group
-                label.apartmentAttr(for='location') Location
-                input#location.form-control(type='text', name='location', value= location)
-            div.form-group
-                label.apartmentAttr(for='rent') Rent
-                input#rent.form-control(type='number', name='rent', value= rent)
-            button.btn.btn-primary(type="submit") Update
-        script.
-            document.forms['ApartmentForm'].addEventListener('submit', (event) => {
-                event.preventDefault();
-                // TODO: Add a loading state or visual indication that the form is being submitted
-                fetch(event.target.action, {
-                    method: 'PUT',
-                    body: new URLSearchParams(new FormData(event.target))
-                })
-                .then((resp) => {
-                    return resp.json();
-                })
-                .then((body) => {
-                    alert("Update succeeded");
-                    // TODO: Handle the response or redirect if needed
-                })
-                .catch((error) => {
-                    alert("Update failed " + error);
+
+        .container(style='margin-top: 20px; text-align: center; background-color: #f2f2f2; padding: 20px; border-radius: 10px;')
+            .row.mt-3
+                .col-md-6
+                    div.mr-1.mb-3
+                        strong(style='color: #e74c3c; font-weight: bold; font-family: "Arial", sans-serif;') Apartment ID:
+                        span.text-primary(style='font-weight: bold;') #{apartmentid}
+                    form#ApartmentForm(action= actionid, method="PUT")
+                        .form-group
+                            label.apartmentAttr(for='apartment_name' style='color: #e74c3c; font-weight: bold; font-family: "Arial", sans-serif;') Apartment Name
+                            input#apartment_name.form-control(type='text', name='apartment_name', value= apartment_name)
+                        .form-group
+                            label.apartmentAttr(for='location' style='color: #e74c3c; font-weight: bold; font-family: "Arial", sans-serif;') Location
+                            input#location.form-control(type='text', name='location', value= location)
+                        .form-group
+                            label.apartmentAttr(for='rent' style='color: #e74c3c; font-weight: bold; font-family: "Arial", sans-serif;') Rent
+                            input#rent.form-control(type='number', name='rent', value= rent)
+                        button.btn.btn-primary(type="submit" style='background-color: #e74c3c; border-color: #e74c3c;') Update
+            script.
+                document.forms['ApartmentForm'].addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    fetch(event.target.action, {
+                        method: 'PUT',
+                        body: new URLSearchParams(new FormData(event.target))
+                    })
+                    .then((resp) => {
+                        if (resp.ok) {
+                            return resp.json();
+                        } else {
+                            return resp.text().then((html) => {
+                                throw new Error(html);
+                            });
+                        }
+                    })
+                    .then((body) => {
+                        alert("Update succeeded");
+                    })
+                    .catch((error) => {
+                        alert("Update failed " + error);
+                    });
                 });
-            });
