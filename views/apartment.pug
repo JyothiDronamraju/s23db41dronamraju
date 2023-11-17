@@ -1,16 +1,20 @@
-
 extends layout
+
 block content
   h1= title
-  - const results = results
+
+  div(class="container-fluid")
+    div(class="row m-1")
+      each item in results
+        - let destination = `dispatch("/apartments/update?id=${item._id}")`
+        div(class="row-sm-2", class="m-1") Item #{item.apartment_name}(#{item.location}) is #{item.rent}
+          button.btn(class="btn-primary ml-1", onclick=destination) Update
+
   script.
-    function buy(index){
-      alert("You purchased items "+ (index+1));
+    function buy(index) {
+      alert("You purchased items " + (index + 1));
     }
-  div.container-fluid
-    div.row
-        each item, index in results
-          div.col-sm-2(onclick = `buy(${index})`)
-             p apartment_name: #{item.apartment_name}
-             p location: #{item.location}
-             p rent: $#{item.rent.toFixed(2)}
+
+    function dispatch(path) {
+      window.location.href = path;
+    }

@@ -1,27 +1,32 @@
 var Apartment = require('../models/apartment');
-// List of all Costumes
+
+// List of all Apartments
 exports.apartment_list = async function (req, res) {
     try {
-        theApartments = await Apartment.find();
-        res.send(theApartments);
-    }
-    catch (err) {
+        const theApartments = await Apartment.find();
+// Example in your controller
+res.render('apartment', { title: 'Apartment Search Results', results: theApartments });
+    } catch (err) {
         res.status(500);
         res.send(`{"error": ${err}}`);
     }
 };
+
+
+
 // VIEWS
 // Handle a show all view
+// Example in your controller
 exports.apartment_view_all_Page = async function (req, res) {
     try {
-        theApartments = await Apartment.find();
-        res.render('apartments', { title: 'Apartment Search Results', results: theApartments });
-    }
-    catch (err) {
+        const theApartments = await Apartment.find();
+        res.render('apartment', { title: 'Apartment Search Results', results: theApartments });
+    } catch (err) {
         res.status(500);
         res.send(`{"error": ${err}}`);
     }
-}
+};
+
 // for a specific Apartment.
 exports.apartment_detail = async function (req, res) {
     console.log("detail " + req.query.id); 
