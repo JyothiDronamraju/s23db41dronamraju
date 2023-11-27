@@ -1,5 +1,4 @@
 extends layout
-
 block content
     h1(style='color: #3498db; font-family: "Helvetica", sans-serif; font-weight: bold; text-align: center;')= title
 
@@ -17,6 +16,7 @@ block content
                     div.mr-1.mb-3
                         strong(style='color: #e74c3c; font-weight: bold; font-family: "Arial", sans-serif;') Apartment ID:
                         span.text-primary(style='font-weight: bold;') #{apartmentid}
+                    -let actionid ="/resource/instruments/" + apartmentid
                     form#ApartmentForm(action= actionid, method="PUT")
                         .form-group
                             label.apartmentAttr(for='apartment_name' style='color: #e74c3c; font-weight: bold; font-family: "Arial", sans-serif;') Apartment Name
@@ -34,20 +34,14 @@ block content
                     fetch(event.target.action, {
                         method: 'PUT',
                         body: new URLSearchParams(new FormData(event.target))
-                    })
-                    .then((resp) => {
-                        if (resp.ok) {
-                            return resp.json();
-                        } else {
-                            return resp.text().then((html) => {
-                                throw new Error(html);
-                            });
-                        }
-                    })
-                    .then((body) => {
-                        alert("Update succeeded");
-                    })
-                    .catch((error) => {
-                        alert("Update failed " + error);
-                    });
+                    }).then((resp) => {
+                return resp.json(); // or resp.text() or whatever the server sends
+                }).then((body) => {
+                alert("Update succeded")
+                // TODO handle body
+                }).catch((error) => {
+                // TODO handle error
+                alert("Update failed " + error )
                 });
+            });
+                

@@ -1,32 +1,34 @@
 extends layout
+
 block content
     h1= title
     form(id='ApartmentForm', action="/resource/apartments", method="POST")
         div.form-group
             label.apartmentAttr(for='apartment_name') Apartment name
-            input#apartment_name(type='text', name='apartment_name')
+            input#apartment_name.form-control(type='text', name='apartment_name', required)
         div.form-group
             label.apartmentAttr(for='location') Location
-            input#location(type='text', name='location')
+            input#location.form-control(type='text', name='location', required)
         div.form-group
             label.apartmentAttr(for='rent') Apartment Rent
-            input#rent(type='number', name='rent')
-        input(type="submit")
+            input#rent.form-control(type='number', name='rent', required)
+        button.btn.btn-primary(type="submit") Save
     script.
         document.forms['ApartmentForm'].addEventListener('submit', (event) => {
             event.preventDefault();
-            // TODO do something here to show user that form is being submitted
+            
+            
             fetch(event.target.action, {
-            method: 'POST',
-            body: new URLSearchParams(new FormData(event.target)) // event.target is the form
-            }).then((resp) => {
-            return resp.json(); // or resp.text() or whatever the server sends
-            }).then((body) => {
-            alert("Save succeded")
-            // TODO handle body
-            }).catch((error) => {
-            // TODO handle error
-            alert("Save failed " + error )
+                method: 'POST',
+                body: new URLSearchParams(new FormData(event.target))
+            })
+            .then((resp) => {
+                return resp.json();
+            })
+            .then((body) => {
+                alert("Save succeeded");
+            })
+            .catch((error) => {
+                alert("Save failed " + error);
             });
         });
-
