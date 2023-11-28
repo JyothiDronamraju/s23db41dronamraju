@@ -14,7 +14,7 @@ router.delete('/apartments/:id', apartment_controller.apartment_delete);
 // PUT request to update Apartment.
 router.put('/apartments/:id', apartment_controller.apartment_update_put);
 // GET request for one Apartment.
-router.get('/apartments/:id', partment_controller.apartment_detail);
+router.get('/apartments/:id', apartment_controller.apartment_detail);
 // GET request for list of all Apartment items.
 router.get('/apartments', apartment_controller.apartment_list);
 module.exports = router;

@@ -4,10 +4,10 @@ body {
 }
 
 a {
-  color: #fff200;
+  color: rgb(255, 0, 157);
 }
 
 .apartmentAttr {
-  background-color: rgb(255, 127, 232);
+  background-color: rgb(136, 127, 255);
   width: 120px;
 }
