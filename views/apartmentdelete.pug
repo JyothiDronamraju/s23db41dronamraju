@@ -1,5 +1,4 @@
 extends layout
-
 block content
     h1= title
     if (toShow == null)
@@ -8,7 +7,7 @@ block content
         - let apartmentid = toShow._id
         - let apartment_name = toShow.apartment_name
         - let location = toShow.location
-        - let rent = toShow.rent
+        - let price = toShow.price
         - let actionid = "/resource/apartments/" + apartmentid
         script let actionid = "#{actionid}"
         div
@@ -16,39 +15,35 @@ block content
                 div(class='apartmentAttr mr-3') Apartment ID is:
                 div #{apartmentid}
             div.row
-                div(class='apartmentAttr mr-3') Apartment Name is:
+                div(class='apartmentAttr mr-3') Apartment name is:
                 div #{apartment_name}
             div.row
-                div(class='apartmentAttr mr-3') Apartment Location is:
+                div(class='apartmentAttr mr-3') Location is:
                 div #{location}
             div.row
-                div(class='apartmentAttr mr-3') Apartment Rent is:
+                div(class='apartmentAttr mr-3') Apartment rent is:
                 div #{rent}
             button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
             button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
-
         script.
             function cancel() {
-                // Go back to the home page for the apartment collection
+            // Go back to the home page for the apartment collection
                 window.location.href='/apartments'
             }
-
         script.
             function deleteOnid() {
                 console.log("starting delete")
-                
                 // delete first
-                
                 fetch(actionid, {
-                    method: 'DELETE' // Don't need a body for the delete
+                method: 'DELETE' // Don't need a body for the delete
                 }).then((resp) => {
-                    return resp.json(); // or resp.text() or whatever the server sends
+                return resp.json(); // or resp.text() or whatever the server sends
                 }).then((body) => {
-                    alert("Delete succeeded");
-                    window.location.href='/apartments';
-                    // TODO handle body
+                alert("Delete succeded")
+                window.location.href='/apartments'
+                // TODO handle body
                 }).catch((error) => {
-                    // TODO handle error
-                    alert("Delete failed " + error);
+                // TODO handle error
+                alert("Delete failed " + error )
                 });
             }

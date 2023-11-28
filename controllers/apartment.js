@@ -1,40 +1,36 @@
 var Apartment = require('../models/apartment');
-
-// List of all Apartments
+// List of all Costumes
 exports.apartment_list = async function (req, res) {
     try {
-        const theApartments = await Apartment.find();
-// Example in your controller
-res.render('apartment', { title: 'Apartment Search Results', results: theApartments });
-    } catch (err) {
+       var theApartments = await Apartment.find();
+        res.send(theApartments);
+    }
+    catch (err) {
         res.status(500);
         res.send(`{"error": ${err}}`);
     }
 };
-
-
-
 // VIEWS
 // Handle a show all view
-// Example in your controller
 exports.apartment_view_all_Page = async function (req, res) {
     try {
-        const theApartments = await Apartment.find();
-        res.render('apartment', { title: 'Apartment Search Results', results: theApartments });
-    } catch (err) {
+        var theApartments = await Apartment.find();
+        res.render('apartments', { title: 'Apartment Search Results', results: theApartments });
+    }
+    catch (err) {
         res.status(500);
         res.send(`{"error": ${err}}`);
     }
-};
+}
 
 // for a specific Apartment.
 exports.apartment_detail = async function (req, res) {
-    console.log("detail " + req.query.id); 
+    console.log("detail" + req.params.id)
     try {
-        let result = await Apartment.findById(req.query.id);
+        let result = await Apartment.findById(req.params.id);
 
         if (!result) {
-            res.status(404).send(`{"error": document for id ${req.query.id} not found`);
+            res.status(404).send(`{"error": document for id ${req.params.id} not found`);
         } else {
             res.send(result);
         }
@@ -42,7 +38,6 @@ exports.apartment_detail = async function (req, res) {
         res.status(500).send(`{"error": ${error.message}`);
     }
 };
-
 // Handle Apartment create on POST.
 exports.apartment_create_post = async function (req, res) {
     console.log(req.body)
@@ -85,7 +80,7 @@ exports.apartment_view_one_Page = async function(req, res) {
     res.send(`{'error': '${err}'}`);
     }
     };
-    // Handle building the view for creating a Apartment pag.
+    // Handle building the view for creating a Apartment.
     // No body, no in path parameter, no query.
     // Does not need to be async
     exports.apartment_create_Page = function(req, res) {
@@ -122,7 +117,7 @@ exports.apartment_update_put = async function (req, res) {
         if (req.body.location)
             toUpdate.location = req.body.location;
         if (req.body.rent)
-            toUpdate.rent = req.body.rent;
+            toUpdate.rent = req.rent.price;
         let result = await toUpdate.save();
         console.log("Success " + result)
         res.send(result)
