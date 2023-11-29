@@ -4,10 +4,18 @@ block content
   h1= title
   div(class="container-fluid")
     div(class="row m-1")
+      button.btn(class="btn btn-success ml-1", onclick="dispatch('/apartments/create')") Create New Apartment
+
       each item in results
-        - let destination = `dispatch("/apartments/update?id=${item._id}")`
-        div(class="row-sm-2", class="m-1") Item #{item.apartment_name}(#{item.location}) is #{item.rent}
-          button.btn(class="btn-primary ml-1", onclick=destination) Update
+        - let updateDestination = `dispatch("/apartments/update?id=${item._id}")`
+        - let detailDestination = `dispatch("/apartments/detail?id=${item._id}")`
+        - let deleteDestination = `dispatch("/apartments/delete?id=${item._id}")`
+
+        div(class="row-sm-2 m-1")
+          | Item #{item.apartment_name}(#{item.location}) is #{item.rent}
+          button.btn(class="btn btn-info m-1  ", onclick=detailDestination) View Details
+          button.btn(class="btn btn-primary mb-2", onclick=updateDestination) Update 
+          button.btn(class="btn btn-danger m-1", onclick=deleteDestination) Delete
 
   script.
     function buy(index) {
